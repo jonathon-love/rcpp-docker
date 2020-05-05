@@ -8,9 +8,9 @@ env:
 install:
   - curl -o R.pkg https://cran.r-project.org/bin/macosx/R-$R_VERSION.pkg
   - sudo installer -package R.pkg -target /
+  - brew update
 
 script:
-  - sudo ln -s /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk
   - git submodule update --init --recursive
   - R CMD INSTALL --build Rcpp
   - ls
