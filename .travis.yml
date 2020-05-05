@@ -4,11 +4,14 @@ osx_image: xcode7.3
 
 env:
   R_VERSION: 3.6.3
+  R_HOME: /Library/Frameworks/R.framework/Resources
 
 install:
-  - curl -o R.pkg https://cran.r-project.org/bin/macosx/R-$R_VERSION.pkg
+  - curl -o R.pkg https://cran.r-project.org/bin/macosx/R-$(R_VERSION).pkg
   - sudo installer -package R.pkg -target /
-  - brew update
+
+before_script:
+  - sed -i.bak 's/-isysroot /-I/g' $(R_HOME)/etc/Makeconf
 
 script:
   - git submodule update --init --recursive
