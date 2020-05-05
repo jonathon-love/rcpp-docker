@@ -6,11 +6,10 @@ env:
   R_VERSION: 3.6.3
 
 install:
-  - xcode-select --install
   - curl -o R.pkg https://cran.r-project.org/bin/macosx/R-$R_VERSION.pkg
   - sudo installer -package R.pkg -target /
 
 script:
   - git submodule update --init --recursive
-  - R CMD INSTALL --build Rcpp
+  - SDKROOT=`xcrun --show-sdk-path` R CMD INSTALL --build Rcpp
   - ls
