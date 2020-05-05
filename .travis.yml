@@ -16,4 +16,13 @@ before_script:
 script:
   - git submodule update --init --recursive
   - R CMD INSTALL --build Rcpp
-  - ls
+
+after_success:
+  - brew install marcelomazza/homebrew-curl-libssh2/curl
+  - echo "${SFTP_KEY}" | base64 --decode >/tmp/sftp_rsa
+  - /usr/local/opt/curl/bin/curl
+         --ftp-create-dirs
+         --insecure
+         --key /tmp/sftp_rsa
+         -T "*.tgz"
+         sftp://${SFTP_USER}@jamovi.org/home/${SFTP_USER}/jamovi.org/downloads/
